@@ -1,0 +1,121 @@
+{
+  "name": "Saint James Chat Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8394e799-e97a-4ed7-bdb4-66aee72411db",
+      "name": "When chat message received",
+      "webhookId": "7b9e46a8-5e99-41ef-a14c-489dd56d1540"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are the customer service assistant for Saint James, a French clothing brand from Normandy famous for its striped marinières.\nBe warm, short and helpful. Reply in the customer's language (French or English).\n\nUse only these facts:\n- Returns: free within 30 days, unworn with tags\n- Delivery: France 2–4 days, Europe 4–7 days\n- Sizing: marinières are true to size; size up for a relaxed fit\n- Care: wash at 30°C, do not tumble dry\n- Contact: support@saint-james-demo.com\n\nIf you don't know the answer, say a team member will reply within 24 hours. Never invent information."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "e7ee50cf-62d8-4181-b3c1-dfef714ee1ff",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        208
+      ],
+      "id": "1cda812b-ba78-4bbe-817a-94fc900a785d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "9aaf96fc-65ea-4749-8f49-a1a73ae71496",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "276edd47-7f2d-4866-8c43-bf9fb1a630a9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "531c0a6ffac748bf5b7bb27519123c20b8aeb568dac3206838dbcffd068bdc1f"
+  },
+  "nodeGroups": [],
+  "id": "rY7ro79eU9MAE2se",
+  "tags": []
+}
